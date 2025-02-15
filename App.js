@@ -23,13 +23,26 @@ export default function App() {
   const [cidade, setCidade] = useState("");
   const [estado, setEstado] = useState("");
 
+  const formatCEP = (value) => {
+    return value
+      .replace(/\D/g, "")
+      .replace(/^(\d{5})(\d)/, "$1-$2")
+      .slice(0, 9);
+  };
+
+  const handleCepChange = (value) => {
+    setCep(formatCEP(value));
+  };
+
   const consultarCEP = async () => {
     setLoading(true);
     setErro("");
     setEndereco(null);
 
     try {
-      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`, {
+        method: "GET",
+      });
       const data = await response.json();
 
       if (data.erro) {
@@ -46,20 +59,6 @@ export default function App() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const novaConsulta = () => {
-    setCep("");
-    setEndereco(null);
-    setErro("");
-    setLogradouro("");
-    setBairro("");
-    setCidade("");
-    setEstado("");
-  };
-
-  const isAnyFieldFilled = () => {
-    return logradouro || bairro || cidade || estado;
   };
 
   return (
@@ -80,7 +79,7 @@ export default function App() {
                 style={styles.inputStyle}
                 maxLength={9}
                 value={cep}
-                onChangeText={setCep}
+                onChangeText={handleCepChange}
               />
             </View>
 
@@ -94,37 +93,39 @@ export default function App() {
 
             {endereco && (
               <View style={styles.resultContainer}>
-                <TextInput
-                  style={styles.inputStyle}
-                  value={logradouro}
-                  onChangeText={setLogradouro}
-                  placeholder="Logradouro"
-                />
-                <TextInput
-                  style={styles.inputStyle}
-                  value={bairro}
-                  onChangeText={setBairro}
-                  placeholder="Bairro"
-                />
-                <TextInput
-                  style={styles.inputStyle}
-                  value={cidade}
-                  onChangeText={setCidade}
-                  placeholder="Cidade"
-                />
-                <TextInput
-                  style={styles.inputStyle}
-                  value={estado}
-                  onChangeText={setEstado}
-                  placeholder="Estado"
-                />
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Logradouro:</Text>
+                  <TextInput
+                    style={styles.inputStyle}
+                    value={logradouro}
+                    onChangeText={setLogradouro}
+                  />
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Bairro:</Text>
+                  <TextInput
+                    style={styles.inputStyle}
+                    value={bairro}
+                    onChangeText={setBairro}
+                  />
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Cidade:</Text>
+                  <TextInput
+                    style={styles.inputStyle}
+                    value={cidade}
+                    onChangeText={setCidade}
+                  />
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Estado:</Text>
+                  <TextInput
+                    style={styles.inputStyle}
+                    value={estado}
+                    onChangeText={setEstado}
+                  />
+                </View>
               </View>
-            )}
-
-            {isAnyFieldFilled() && (
-              <TouchableOpacity onPress={novaConsulta} style={styles.button}>
-                <Text style={styles.buttonText}>Nova Consulta</Text>
-              </TouchableOpacity>
             )}
           </View>
         </ScrollView>
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#AFDDC2",
   },
   button: {
-    marginTop: 15,
+    marginTop: 20,
     backgroundColor: "#AFDDC2",
     width: "70%",
     height: 45,
@@ -189,6 +190,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   resultContainer: {
+    width: "100%",
     marginTop: 20,
     alignItems: "center",
   },
