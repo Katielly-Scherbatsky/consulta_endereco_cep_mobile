@@ -24,7 +24,7 @@ Este é um aplicativo desenvolvido em **React Native** que permite ao usuário c
 
 ### Requisição à API CEP
 - Utiliza o método **HTTP GET** para consultar a API.
-- A URL da API e sua documentação podem ser acessadas em: [Via Cep]((https://viacep.com.br/)).
+- A URL da API e sua documentação podem ser acessadas em: [Via Cep](https://viacep.com.br/).
 
 ### Tratamento de Erros
 - Caso o CEP não seja encontrado ou a API retorne erro, uma mensagem apropriada será exibida ao usuário.
