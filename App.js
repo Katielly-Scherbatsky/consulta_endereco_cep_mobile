@@ -61,6 +61,12 @@ export default function App() {
     }
   };
 
+  const handleCepSubmit = () => {
+    if (cep.length === 9) {
+      consultarCEP();
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#256" }}>
       <KeyboardAvoidingView
@@ -80,6 +86,57 @@ export default function App() {
                 maxLength={9}
                 value={cep}
                 onChangeText={handleCepChange}
+                onSubmitEditing={handleCepSubmit}
+                returnKeyType="done"
+              />
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Logradouro:</Text>
+              <TextInput
+                style={[
+                  styles.inputStyle,
+                  { backgroundColor: endereco ? "#AFDDC2" : "#555" },
+                ]}
+                value={logradouro}
+                onChangeText={setLogradouro}
+                editable={!!endereco}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Bairro:</Text>
+              <TextInput
+                style={[
+                  styles.inputStyle,
+                  { backgroundColor: endereco ? "#AFDDC2" : "#555" },
+                ]}
+                value={bairro}
+                onChangeText={setBairro}
+                editable={!!endereco}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Cidade:</Text>
+              <TextInput
+                style={[
+                  styles.inputStyle,
+                  { backgroundColor: endereco ? "#AFDDC2" : "#555" },
+                ]}
+                value={cidade}
+                onChangeText={setCidade}
+                editable={!!endereco}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Estado:</Text>
+              <TextInput
+                style={[
+                  styles.inputStyle,
+                  { backgroundColor: endereco ? "#AFDDC2" : "#555" },
+                ]}
+                value={estado}
+                onChangeText={setEstado}
+                editable={!!endereco}
               />
             </View>
 
@@ -90,43 +147,6 @@ export default function App() {
             {loading && <ActivityIndicator size="large" color="#AFDDC2" />}
 
             {erro ? <Text style={styles.errorMsg}>{erro}</Text> : null}
-
-            {endereco && (
-              <View style={styles.resultContainer}>
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Logradouro:</Text>
-                  <TextInput
-                    style={styles.inputStyle}
-                    value={logradouro}
-                    onChangeText={setLogradouro}
-                  />
-                </View>
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Bairro:</Text>
-                  <TextInput
-                    style={styles.inputStyle}
-                    value={bairro}
-                    onChangeText={setBairro}
-                  />
-                </View>
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Cidade:</Text>
-                  <TextInput
-                    style={styles.inputStyle}
-                    value={cidade}
-                    onChangeText={setCidade}
-                  />
-                </View>
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Estado:</Text>
-                  <TextInput
-                    style={styles.inputStyle}
-                    value={estado}
-                    onChangeText={setEstado}
-                  />
-                </View>
-              </View>
-            )}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -188,10 +208,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#F74722",
     marginTop: 15,
-  },
-  resultContainer: {
-    width: "100%",
-    marginTop: 20,
-    alignItems: "center",
   },
 });
